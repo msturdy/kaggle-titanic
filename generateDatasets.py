@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import pickle
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,11 +12,12 @@ from bin import prepareData
 from bin import helperFunctions
 
 # print out more information
-print_debug = False
+print_debug = 1
 
 train_file_in   = 'data/train.csv'
 test_file_in    = 'data/test.csv'
-submission_file = 'submission.csv'
+
+pickled_datasets_file = 'data/pickled_datasets.bin'
 
 pd.set_option('display.max_colwidth', 30)
 pd.set_option('expand_frame_repr', False)
@@ -60,28 +63,8 @@ if print_debug:
     print("x_train.head()\n", x_train.head())
     print("x_test.head()\n", x_test.head())
 
+pickled_datasets = (x_train, y_train, x_test)
 
-model  = RandomForestClassifier(n_jobs=2)
-# the parameter grid to search across
-param_grid = {
-    "max_depth": [5,10],
-    "n_estimators": [100,1000]
-}
+pickle.dump(pickled_datasets, open(pickled_datasets_file, 'wb'))
 
-print("\nCalculating best params for the RandomForestClassifier...")
-best_params_random_forest = helperFunctions.getBestParametersUsingGridSearch(model, param_grid, x_train, y_train)
-
-print("Found best parameters: {}".format(best_params_random_forest))
-
-#model.fit(x_train, y_train)
-#y_pred = model.predict(x_test)
-
-#print('\nAccuracy from training dataSet: {}%'.format(round(model.score(x_train, y_train) * 100, 2)))
-
-#submission = pd.DataFrame({
-#    "PassengerId": test["PassengerId"],
-#    "Survived": y_pred
-#})
-
-#submission.to_csv(submission_file, index=False)
-#print('Submission data written to [{}]'.format(submission_file))
+print('datasets pickled into {}'.format(pickled_datasets_file))
