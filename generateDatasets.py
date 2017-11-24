@@ -9,7 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 # This imports the prepareData.py file from our "bin" folder
 from bin import prepareData
-from bin import helperFunctions
+# from bin import helperFunctions
 
 # print out more information
 print_debug = 1
@@ -63,8 +63,8 @@ if print_debug:
     print("x_train.head()\n", x_train.head())
     print("x_test.head()\n", x_test.head())
 
-pickled_datasets = (x_train, y_train, x_test)
 
+pickled_datasets = (x_train, y_train, x_test)
 pickle.dump(pickled_datasets, open(pickled_datasets_file, 'wb'))
 
-print('datasets pickled into {}'.format(pickled_datasets_file))
+print('Datasets pickled into {}'.format(pickled_datasets_file))

@@ -7,9 +7,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 
-# This imports the prepareData.py file from our "bin" folder
 # from bin import prepareData
 from bin import helperFunctions
+
 
 # print out more information
 print_debug = 1
