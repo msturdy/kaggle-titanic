@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import sys
 import pickle
 
 import pandas as pd
@@ -8,16 +9,22 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 
 # from bin import prepareData
-from bin import helperFunctions
+from bin.helperFunctions import loadPickledData, getBestParametersUsingGridSearch
+from bin.exceptions import NoPickleFileException
 
 
 # print out more information
 print_debug = 1
 
-pickled_datasets_file = 'data/pickled_datasets.bin'
+pickled_datasets_file = 'data/pickled_datasets.bin2'
 submission_file = 'submission.csv'
 
-x_train, y_train, x_test = pickle.load(open(pickled_datasets_file, 'rb'))
+try:
+    x_train, y_train, x_test = loadPickledData(pickled_datasets_file)
+except NoPickleFileException:
+    print('File not found at {}'.format(pickled_datasets_file))
+    sys.exit(1) 
+
 
 if print_debug:
     print("\n\ndataSets shapes:", x_train.shape, y_train.shape, x_test.shape)
@@ -33,6 +40,6 @@ param_grid = {
 }
 
 print("\nCalculating best params for the RandomForestClassifier...")
-best_params_random_forest = helperFunctions.getBestParametersUsingGridSearch(model, param_grid, x_train, y_train)
+best_params_random_forest = getBestParametersUsingGridSearch(model, param_grid, x_train, y_train)
 
 print("Found best parameters: {}".format(best_params_random_forest))
