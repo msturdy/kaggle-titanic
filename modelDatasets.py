@@ -47,7 +47,13 @@ print("\nCalculating best params for the RandomForestClassifier...")
 
 best_params_random_forest = getBestParametersUsingGridSearch(model, param_grid, x_train, y_train)
 
-print("Found best parameters: {}".format(best_params_random_forest))
+print("Using best parameters: {}".format(best_params_random_forest))
+
+model = RandomForestClassifier(
+    n_jobs=2,
+    max_depth=best_params_random_forest['max_depth'],
+    n_estimators=best_params_random_forest['n_estimators']
+)
 
 model.fit(x_train, y_train)
 print('\nAccuracy from training dataSet: {}%'.format(round(model.score(x_train, y_train) * 100, 2)))
