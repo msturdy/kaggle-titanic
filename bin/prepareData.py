@@ -1,3 +1,5 @@
+## Series of functions to munge the data and add features to the dataset
+##
 import re
 
 ##  --------------------------------- 

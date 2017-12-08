@@ -1,23 +1,20 @@
 #!/usr/bin/python3
+##
+##
 
 import sys
-import pickle
-
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 
-# from bin import prepareData
+# This imports the prepareData.py file from our "bin" folder
 from bin.helperFunctions import loadPickledData, getBestParametersUsingGridSearch
 from bin.exceptions import NoPickleFileException
-
 
 # print out more information
 print_debug = 1
 
 pickled_datasets_file = 'data/pickled_datasets.bin'
-submission_file = 'submission.csv'
+submission_file       = 'submission.csv'
 
 # needed for displaying in wide console without wrapping text
 pd.set_option('display.max_colwidth', 30)
@@ -31,9 +28,9 @@ except NoPickleFileException:
 
 
 if print_debug:
-    print("\n\ndataSets shapes:", x_train.shape, y_train.shape, x_test.shape)
-    print("x_train.head()\n", x_train.head())
-    print("x_test.head()\n", x_test.head())
+    # print("\n\ndataSets shapes:", x_train.shape, y_train.shape, x_test.shape)
+    print("x_train.head()\n", x_train.head(2))
+    print("x_test.head()\n", x_test.head(2))
 
 
 model  = RandomForestClassifier(n_jobs=2)

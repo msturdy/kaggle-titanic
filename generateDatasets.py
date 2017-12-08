@@ -1,10 +1,8 @@
 #!/usr/bin/python3
-
-import pickle
+##
+##
 
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 
 # This imports the prepareData.py file from our "bin" folder
@@ -14,11 +12,12 @@ from bin.helperFunctions import storePickledData
 # print out more information
 print_debug = 1
 
-train_file_in   = 'data/train.csv'
-test_file_in    = 'data/test.csv'
+train_file_in = 'data/train.csv'
+test_file_in  = 'data/test.csv'
 
 pickled_datasets_file = 'data/pickled_datasets.bin'
 
+# needed for displaying in wide console without wrapping text
 pd.set_option('display.max_colwidth', 30)
 pd.set_option('expand_frame_repr', False)
 
@@ -63,7 +62,6 @@ if print_debug:
     print("\n\ndataSets shapes:", x_train.shape, y_train.shape, x_test.shape)
     print("x_train.head()\n", x_train.head())
     print("x_test.head()\n", x_test.head())
-
 
 pickled_datasets = (x_train, y_train, x_test, test)
 
