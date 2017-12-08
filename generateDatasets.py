@@ -38,6 +38,7 @@ if print_debug:
     print("\n", train[['Port', 'Survived']].groupby('Port', as_index=False).mean())
     print("\n", train[['Title', 'Survived']].groupby('Title', as_index=False).mean())
     print("\n", train[['Class', 'Survived']].groupby('Class', as_index=False).mean())
+    print("\n", train[['NameLen', 'Survived']].groupby('NameLen', as_index=False).mean())
 
 ## drop unneeded features
 if print_debug:
@@ -64,7 +65,7 @@ if print_debug:
     print("x_test.head()\n", x_test.head())
 
 
-pickled_datasets = (x_train, y_train, x_test)
+pickled_datasets = (x_train, y_train, x_test, test)
 
 if storePickledData(pickled_datasets, pickled_datasets_file):
     print('Datasets pickled into {}'.format(pickled_datasets_file))

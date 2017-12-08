@@ -25,15 +25,33 @@ def deck(c):
 ##  stipped out with regex and normalised
 def passengerTitle(n):
     titles = {
-        'Capt': '0',       'Col': '0',
-        'Don': '0',        'Dr': '0',
-        'Jonkheer': '0',   'Lady': '1',
-        'Major': '0',      'Master': '0',
-        'Miss': '2',     'Mlle': '2',
-        'Mme': '1',       'Mr': '0',
-        'Mrs': '1',       'Ms': '2',
-        'Rev': '0',        'Sir': '0',
-        'Countess': '1',  'Dona': '1'
+        # men
+        'Master':   '0',
+        'Mr':       '0',
+        'Don':      '0',
+        'Dr':       '0',
+        'Rev':      '0',
+
+        # ladies
+        'Mrs':      '1',
+        'Mme':      '1',
+        'Dona':     '1',
+
+        # young ladies
+        'Miss':     '2',
+        'Mlle':     '2',
+        'Ms':       '2',
+
+        # military
+        'Major':    '3',
+        'Capt':     '3',
+        'Col':      '3',
+
+        # poshos
+        'Jonkheer': '4',
+        'Sir':      '4',
+        'Lady':     '4',
+        'Countess': '4',
     }
 
     m = re.search(r' ([a-zA-Z]+)\.', n)
@@ -79,5 +97,7 @@ def prepare(dataSets):
         dataSet['FamilySize'] = dataSet['Parch'] + dataSet['SibSp']
         dataSet['Port']       = dataSet['Embarked'].map(lambda p: normalisePort(p))
         dataSet['Class']      = dataSet['Pclass']
+        dataSet['NameLen']    = dataSet['Name'].map(lambda n: len(n))
+        # dataSet['Military']   = dataSet['Name'].map(lambda n: isMilitary(n))
 
     return dataSets
