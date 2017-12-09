@@ -3,7 +3,7 @@
 import sys
 import pickle
 from sklearn.model_selection import GridSearchCV
-from bin.exceptions import NoPickleFileException
+from bin.exceptions import PickleFileException
 
 ##  report the best parameters that have been tried for given model, param_grid and data
 ##  then return the tuned model
@@ -19,28 +19,35 @@ def getTunedModel(model, param_grid, x_train, y_train):
     return CV_model
 
 
-# take python objects and write to disk, to be picked up later
+##  take python objects and write to disk, to be picked up later
 def storePickledData(data, filename):
     
     try:
-        with open(filename, 'wb') as pickled_data_file:
-            pickle.dump(data, pickled_data_file)
+        pickled_data_file = open(filename, 'wb')
 
-    except:
-        print('ERROR: failed pickling Datasets to {}'.format(filename))
+    except IOError as e:
+        print('ERROR: opening file {}: {}'.format(filename, e))
         sys.exit(1)
     
     else:
+        pickle.dump(data, pickled_data_file)
         print('Datasets pickled into {}'.format(filename))
+        pickled_data_file.close()
 
 
-# read a pickled file from disk and return the contents.
+##  read a pickled file from disk and return the contents.
 def loadPickledData(filename):
     
     try:
-        with open(filename, 'rb') as pickled_data_file:
-            return pickle.load(pickled_data_file)
+        pickled_data_file = open(filename, 'rb')
 
     except FileNotFoundError:
-        raise NoPickleFileException("No file found at {}".format(filename))
+        raise PickleFileException("No file found at {}".format(filename))
  
+    except IOError as e:
+        raise PickleFileException("ERROR accessing file at {}: {}".format(filename, e))
+        
+    else:
+        pickled_data = pickle.load(pickled_data_file)
+        pickled_data_file.close()
+        return pickled_data

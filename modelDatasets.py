@@ -10,7 +10,7 @@ from sklearn.metrics import confusion_matrix
 
 # This imports the prepareData.py file from our "bin" folder
 from bin.helperFunctions import loadPickledData, getTunedModel
-from bin.exceptions import NoPickleFileException
+from bin.exceptions import PickleFileException
 
 # print out more information
 print_debug = 1
@@ -24,7 +24,7 @@ pd.set_option('expand_frame_repr', False)
 
 try:
     x_train, y_train, x_test, test = loadPickledData(pickled_datasets_file)
-except NoPickleFileException:
+except PickleFileException:
     print('ERROR: File not found at "{}"'.format(pickled_datasets_file))
     sys.exit(1) 
 
