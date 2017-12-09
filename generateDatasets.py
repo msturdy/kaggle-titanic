@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 ##
 ##
-
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
 
 # This imports the prepareData.py file from our "bin" folder
 from bin import prepareData

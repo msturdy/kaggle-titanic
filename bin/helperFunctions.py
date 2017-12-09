@@ -1,6 +1,7 @@
-
+## Useful functions for preparing data
+##
 import pickle
-from sklearn.grid_search import GridSearchCV
+from sklearn.model_selection import GridSearchCV
 from bin.exceptions import NoPickleFileException
 
 #  report the best parameters that have been tried for given model, param_grid and data

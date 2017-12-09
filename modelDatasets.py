@@ -23,7 +23,7 @@ pd.set_option('expand_frame_repr', False)
 try:
     x_train, y_train, x_test, test = loadPickledData(pickled_datasets_file)
 except NoPickleFileException:
-    print('File not found at {}'.format(pickled_datasets_file))
+    print('ERROR: File not found at "{}"'.format(pickled_datasets_file))
     sys.exit(1) 
 
 
