@@ -99,7 +99,6 @@ def prepare(dataSets):
         dataSet['FamilySize'] = dataSet['Parch'] + dataSet['SibSp']
         dataSet['Port']       = dataSet['Embarked'].map(lambda p: normalisePort(p))
         dataSet['Class']      = dataSet['Pclass']
-        dataSet['NameLen']    = dataSet['Name'].map(lambda n: len(n))
-        # dataSet['Military']   = dataSet['Name'].map(lambda n: isMilitary(n))
+        # dataSet['NameLen']    = dataSet['Name'].map(lambda n: len(n))
 
     return dataSets

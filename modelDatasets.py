@@ -5,9 +5,11 @@
 import sys
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
 
 # This imports the prepareData.py file from our "bin" folder
-from bin.helperFunctions import loadPickledData, getBestParametersUsingGridSearch
+from bin.helperFunctions import loadPickledData, getTunedModel
 from bin.exceptions import NoPickleFileException
 
 # print out more information
@@ -33,29 +35,22 @@ if print_debug:
     print("x_test.head()\n", x_test.head(2))
 
 
-model  = RandomForestClassifier(n_jobs=2)
+# n_jobs -1 to match number of cores
+model  = RandomForestClassifier(n_jobs=-1)
+
 # the parameter grid to search across
 param_grid = {
     "max_depth": [5,10],
     "n_estimators": [100,1000]
 }
 
-print("\nCalculating best params for the RandomForestClassifier...")
+tuned_model = getTunedModel(model, param_grid, x_train, y_train)
+tuned_model.fit(x_train, y_train)
 
-best_params_random_forest = getBestParametersUsingGridSearch(model, param_grid, x_train, y_train)
+print("Our tuned_model: {}".format(tuned_model))
+print('\nAccuracy from training dataSet: {}%'.format(round(tuned_model.score(x_train, y_train) * 100, 2)))
 
-print("Using best parameters: {}".format(best_params_random_forest))
-
-model = RandomForestClassifier(
-    n_jobs=2,
-    max_depth=best_params_random_forest['max_depth'],
-    n_estimators=best_params_random_forest['n_estimators']
-)
-
-model.fit(x_train, y_train)
-print('\nAccuracy from training dataSet: {}%'.format(round(model.score(x_train, y_train) * 100, 2)))
-
-y_pred = model.predict(x_test)
+y_pred = tuned_model.predict(x_test)
 
 submission = pd.DataFrame({
    "PassengerId": test["PassengerId"],
