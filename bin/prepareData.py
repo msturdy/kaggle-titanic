@@ -85,6 +85,46 @@ def normalisePort(p):
         return -1
 
 
+##  ------------------------------------------
+##  take the whole dataset and calculate the fares 
+##  if missing.
+##  return a list of values.
+def normaliseFares(ds):
+
+    # we'll return a list of the fares once they have been normalised
+    normalisedFares = []
+
+    # count up how many duplicated tickets are there.
+    ticket_count = {}
+    for ticket_number in ds['Ticket']:
+        # add tickets to ticket_count...
+        if ticket_number not in ticket_count:
+            ticket_count[ticket_number] = 0
+        # ...and count them
+        ticket_count[ticket_number] += 1
+
+    # fill NaN with zeros
+    ds = ds.fillna(value={'Fare': 0})
+
+    # loop through our dataset
+    for index, row in ds.iterrows():
+        
+        fare   = row['Fare']
+        ticket = row['Ticket']
+        pclass = row['Pclass']
+
+        # if there is a value, divide it by the number of corresponding 
+        # tickets to get average ticket price
+        if fare > 0:
+            normalisedFare = fare / ticket_count[ticket]
+        else:
+            normalisedFare = fare
+
+        normalisedFares.append(normalisedFare)
+
+    return normalisedFares
+
+
 ##  ----------------
 ##  do all the things and return the dataSets
 def prepare(dataSets):
@@ -92,13 +132,17 @@ def prepare(dataSets):
     ##  -------------------------------------------
     ##  add some features to the dataSets
     for dataSet in dataSets:
-        dataSet['AgeGroup']   = dataSet['Age'].map(lambda x: ageGroup(x))
-        dataSet['Deck']       = dataSet['Cabin'].map(lambda x: deck(x))
-        dataSet['Title']      = dataSet['Name'].map(lambda n: passengerTitle(n))
-        dataSet['Gender']     = dataSet['Sex'].map(lambda s: passengerGender(s))
-        dataSet['FamilySize'] = dataSet['Parch'] + dataSet['SibSp']
-        dataSet['Port']       = dataSet['Embarked'].map(lambda p: normalisePort(p))
-        dataSet['Class']      = dataSet['Pclass']
-        # dataSet['NameLen']    = dataSet['Name'].map(lambda n: len(n))
+        dataSet['AgeGroup']        = dataSet['Age'].map(lambda x: ageGroup(x))
+        dataSet['Deck']            = dataSet['Cabin'].map(lambda x: deck(x))
+        dataSet['Title']           = dataSet['Name'].map(lambda n: passengerTitle(n))
+        dataSet['Gender']          = dataSet['Sex'].map(lambda s: passengerGender(s))
+        dataSet['FamilySize']      = dataSet['Parch'] + dataSet['SibSp']
+        dataSet['Port']            = dataSet['Embarked'].map(lambda p: normalisePort(p))
+        dataSet['Class']           = dataSet['Pclass']
+        dataSet['NormalisedFare']  = normaliseFares(dataSet)
+
+        # not using this yet:
+        averageTicketPrices = dataSet[['Pclass', 'NormalisedFare']].groupby('Pclass').mean()
+        # print("\n----------\n{}\n----------------\n".format(averageTicketPrices))
 
     return dataSets

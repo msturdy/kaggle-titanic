@@ -31,8 +31,8 @@ def storePickledData(data, filename):
     
     else:
         pickle.dump(data, pickled_data_file)
-        print('Datasets pickled into {}'.format(filename))
         pickled_data_file.close()
+        print('Datasets pickled into {}'.format(filename))
 
 
 ##  read a pickled file from disk and return the contents.
@@ -50,4 +50,5 @@ def loadPickledData(filename):
     else:
         pickled_data = pickle.load(pickled_data_file)
         pickled_data_file.close()
+        
         return pickled_data

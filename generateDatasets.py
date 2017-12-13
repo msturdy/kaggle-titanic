@@ -8,7 +8,7 @@ from bin import prepareData
 from bin.helperFunctions import storePickledData
 
 # print out more information
-print_debug = 1
+print_debug = 0
 
 train_file_in = 'data/train.csv'
 test_file_in  = 'data/test.csv'
