@@ -8,7 +8,7 @@ from bin import prepareData
 from bin.helperFunctions import storePickledData
 
 # print out more information
-print_debug = 0
+print_debug = 1
 
 train_file_in = 'data/train.csv'
 test_file_in  = 'data/test.csv'
@@ -32,9 +32,11 @@ if print_debug:
     print("\n", train[['AgeGroup', 'Survived']].groupby('AgeGroup', as_index=False).mean())
     print("\n", train[['Deck', 'Survived']].groupby('Deck', as_index=False).mean())
     print("\n", train[['FamilySize', 'Survived']].groupby('FamilySize', as_index=False).mean())
+    print("\n", train[['IsAlone', 'Survived']].groupby('IsAlone', as_index=False).mean())
     print("\n", train[['Port', 'Survived']].groupby('Port', as_index=False).mean())
     print("\n", train[['Title', 'Survived']].groupby('Title', as_index=False).mean())
     print("\n", train[['Class', 'Survived']].groupby('Class', as_index=False).mean())
+    print("\n", train[['NormalisedFare', 'Survived']].groupby('NormalisedFare', as_index=False).mean())
 
     print('Before trimming unneeded features:\n', train.head(1))
 
