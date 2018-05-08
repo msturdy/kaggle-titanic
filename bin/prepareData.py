@@ -138,6 +138,6 @@ def prepare(dataSets):
         dataSet.loc[dataSet['FamilySize'] == 1, 'IsAlone'] = 1
         
         dataSet['NormalisedFare']  = normaliseFares(dataSet)
-        
+
 
     return dataSets
